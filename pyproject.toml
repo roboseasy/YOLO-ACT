@@ -1,0 +1,27 @@
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[project]
+# 이름이 lerobot_policy_ 로 시작해야 lerobot-train 이 플러그인을 자동으로 불러온다.
+name = "lerobot_policy_act_bbox"
+version = "0.1.0"
+description = "LeRobot 플러그인: YOLO bbox를 입력으로 받는 ACT(act_bbox)와 bbox 녹화·롤아웃 명령"
+readme = "README.md"
+license = "Apache-2.0"
+license-files = ["LICENSE"]
+requires-python = ">=3.12"
+# lerobot 0.6.0 과 ultralytics 는 conda env lerobot 에 이미 있다. 여기서 설치하지 않는다.
+dependencies = []
+
+[project.scripts]
+lerobot-record-bbox = "lerobot_policy_act_bbox.record:main"
+lerobot-rollout-bbox = "lerobot_policy_act_bbox.rollout:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+# env에 깔린 anyio pytest 플러그인이 pytest 9에서 경고를 내므로 끈다 (이 시험은 anyio를 쓰지 않는다).
+addopts = "-p no:anyio"
